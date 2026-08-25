@@ -4,8 +4,9 @@ from telegram import Bot
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import asyncio
+import os
 
-TOKEN = "8907586103:AAH_e1c7NQtSxYgUVOVuFJz3FGaWb2ZO3WM"
+TOKEN = os.environ["8907586103:AAH_e1c7NQtSxYgUVOVuFJz3FGaWb2ZO3WM"]
 
 GROUP_ID = -1004385944778
 
