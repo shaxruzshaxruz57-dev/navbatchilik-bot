@@ -6,7 +6,7 @@ from zoneinfo import ZoneInfo
 import asyncio
 import os
 
-TOKEN = os.environ["8907586103:AAH_e1c7NQtSxYgUVOVuFJz3FGaWb2ZO3WM"]
+TOKEN = os.environ["BOT_TOKEN"]
 
 GROUP_ID = -1004385944778
 
