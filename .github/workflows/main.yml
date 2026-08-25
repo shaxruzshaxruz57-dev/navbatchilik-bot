@@ -1,0 +1,35 @@
+name: Navbatchilik bot
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repositoryni yuklash
+        uses: actions/checkout@v4
+
+      - name: Python o‘rnatish
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Kerakli kutubxonalarni o‘rnatish
+        run: |
+          pip install gspread google-auth python-telegram-bot
+
+      - name: Google JSON faylini yaratish
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: |
+          printf '%s' "$GOOGLE_CREDENTIALS" > navbatchilik-bot-a1500f896dd8.json
+
+      - name: Botni ishga tushirish
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: |
+          python bot.py
