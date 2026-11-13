@@ -15,9 +15,6 @@ JSON_FILE = "navbatchilik-bot-a1500f896dd8.json"
 SHEET_NAME = "navbatchilik"
 WORKSHEET_NAME = "Лист1"
 
-SEND_HOUR = 8
-SEND_MINUTE = 0
-
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
@@ -33,7 +30,6 @@ client = gspread.authorize(credentials)
 sheet = client.open(SHEET_NAME).worksheet(WORKSHEET_NAME)
 
 bot = Bot(token=TOKEN)
-
 
 async def send_today_duty():
     today = datetime.now(
@@ -72,36 +68,12 @@ async def send_today_duty():
         text=message
     )
 
-    print("Xabar yuborildi:", today)
-
+    print("Xabar yuborildi:", today, flush=True)
 
 async def main():
-    print("Bot ishlayapti...")
-    print("Har kuni 08:00 da xabar yuboradi.")
-
-    last_sent_date = None
-
-    while True:
-        now = datetime.now(
-            ZoneInfo("Asia/Tashkent")
-        )
-
-        today = now.date()
-
-        # 08:00 ga yetgan bo'lsa va bugun hali yuborilmagan bo'lsa
-        if (
-            (now.hour > SEND_HOUR or
-             (now.hour == SEND_HOUR and now.minute >= SEND_MINUTE))
-            and last_sent_date != today
-        ):
-            try:
-                await send_today_duty()
-                last_sent_date = today
-            except Exception as e:
-                print("Xabar yuborishda xatolik:", e)
-
-        await asyncio.sleep(20)
-
+    # Xabarni bir marta yuboradi va darhol tugaydi.
+    # Har kuni soat 08:00 da ishga tushirishni GitHub Actions jadvali bajaradi.
+    await send_today_duty()
 
 if __name__ == "__main__":
     asyncio.run(main())
